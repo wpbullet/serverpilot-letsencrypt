@@ -209,21 +209,21 @@ echo ""
 echo ""
 echo "Your Let's Encrypt SSL certificate has been installed. Please update your .htaccess to force HTTPS on your app"
 echo ""
-echo "To enable auto-renewal, add the following to your crontab:"
+echo "Adding cronjobs automatically:"
 
 # Append new schedule to crontab
 # 14.04 Trusty Tahr
 if [ $ubuntu == '14.04' ]
 then
-    echo "0 */12 * * * /usr/local/bin/certbot-auto renew --quiet --no-self-upgrade"
+    crontab -u root -l | { cat; echo "0 */12 * * * /usr/local/bin/certbot-auto renew --quiet --no-self-upgrade"; } | crontab -u root -
 fi
 
 # 16.04 Xenial Xerus
 if [ $ubuntu == '16.04' ]
 then
-    echo "0 */12 * * * letsencrypt renew"
+    crontab -u root -l | { cat; echo "0 */12 * * * letsencrypt renew"; } | crontab -u root -
 fi
 
 echo ""
 echo ""
-echo "Cheers!"
+echo "Cronjobs added for autorenewal!"
